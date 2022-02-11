@@ -6,9 +6,10 @@ ALPHABET = "abcdefghijklmnopqrstuvwxyz"
 ALPHABET_ANS = {t: True for t in ALPHABET}
 guess_list = []
 Line = "-" * (WORD_LENGTH * 2 + 1) * 2
-with open('voc.json') as f:
+with open('Wordle_pygame/voc.json') as f:
     word_list = json.load(f)['wordle']["vocab"]
     answer = random.choice(word_list)
+
 
 def check(guess):
     r = []

@@ -223,8 +223,6 @@ def window_init(window):
     pygame.draw.line(window, WHITE, (0, 7 + text_height), (WIN_WIDTH, 7 + text_height), 1)
 
 
-
-
 def game_over_text():
     text = N_FONT.render(game_result, True, WHITE)
     text_width, text_height = text.get_size()
@@ -276,7 +274,10 @@ def guess_input(word):
     return True
 
 
-with open('voc.json') as f:
+
+
+
+with open('Wordle_pygame/voc.json') as f:
     WORD_LIST = json.load(f)['wordle']["vocab"]
 ANSWER = random.choice(WORD_LIST).upper()
 ALPHABET_ANS = {t.upper(): "normal" for t in ALPHABET}
@@ -302,8 +303,13 @@ while True:
             if not GAME_OVER:
                 if event.key == pygame.K_RETURN:
                     if len(text) == 5:
-                        GAME_OVER = guess_input(text)
-                        text = ""
+                        if text.lower() in WORD_LIST:
+                            GAME_OVER = guess_input(text)
+                            text = ""
+                        else:
+                            for i in range(len(text)):
+                                table.delete_word()
+                                text = ""
                 elif event.key == pygame.K_BACKSPACE:
                     if len(text) > 0:
                         table.delete_word()
@@ -319,8 +325,13 @@ while True:
                     if b.rect.collidepoint(event.pos):
                         if b.word == "ENTER":
                             if len(text) == 5:
-                                GAME_OVER = guess_input(text)
-                                text = ""
+                                if text.lower() in WORD_LIST:
+                                    GAME_OVER = guess_input(text)
+                                    text = ""
+                                else:
+                                    for i in range(len(text)):
+                                        table.delete_word()
+                                        text = ""
                         elif b.word == "DELETE":
                             if len(text) > 0:
                                 table.delete_word()
